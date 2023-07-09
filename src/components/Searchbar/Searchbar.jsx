@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import css from "./Searchbar.module.css";
 
 class Searchbar extends Component{
   state = {
@@ -7,6 +8,9 @@ class Searchbar extends Component{
 
   onSubmit = (e) => {
     e.preventDefault();
+    if (this.state.value === "") {
+      return alert("Input field is empty!");
+    }
     this.props.onChange(this.state.value);
     this.setState({ value: "" });
   }
@@ -18,15 +22,15 @@ class Searchbar extends Component{
 
   render() {
     return (
-      <header className="searchbar">
-        <form className="form" onSubmit={this.onSubmit}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
+      <header className={css.Searchbar}>
+        <form className={css.SearchForm} onSubmit={this.onSubmit}>
+          <button type="submit" className={css.SearchFormButton}>
+            <span className={css.SearchFormButtonLabel}>Search</span>
           </button>
 
           <input
             onChange={this.handleChange}
-            className="input"
+            className={css.SearchFormInput}
             type="text"
             value={this.state.value}
             autoComplete="off"

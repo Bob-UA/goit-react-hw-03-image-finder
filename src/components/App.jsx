@@ -4,7 +4,8 @@ import ImageGallery from "./ImageGallery"
 import Button from './Button';
 import SearchApi from "./SearchApi"
 import Loader from './Loader/Loader';
-import Modal from './Modal/Modal';
+import Modal from './Modal';
+import css from "./App.module.css";
 
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
     gallery: [],
     status: 'allow',
     showModal: false,
+    largeImage:"",
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -24,17 +26,31 @@ class App extends Component {
       SearchApi(value, page)
         .then(response => response.json())
         .then(ar =>
-          this.setState(({ gallery }) => ({
-            gallery: [...gallery, ...ar.hits],
-            status: 'deny',
-          }))
+          this.setState(
+            ({ gallery }) => ({
+              gallery: [...gallery, ...ar.hits],
+              status: 'deny',
+            }),
+            this.alertEmptyArray(ar.hits.length)
+          )
         );
     }
   }
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({ showModal: !showModal, }));
+  alertEmptyArray = (value) => {
+    if (!value) {
+      return alert ("Ooops there is no images, try another search!")
+    }
+  }
+
+  openModal = (img) => {
+    this.setState({ showModal: true });
+    this.setState({largeImage:img})
   };
+
+  closeModal = () => {
+    this.setState({ showModal:false });
+  }
 
   onSubmit = name => {
     if (name === this.state.value) {
@@ -53,18 +69,32 @@ class App extends Component {
   render() {
     const { gallery, status, showModal } = this.state;
     return (
-      <>
-        <button type='button' onClick={this.toggleModal}>Open</button>
-        <Searchbar onChange={this.onSubmit} />
-        <ImageGallery gallery={gallery} />
-        {gallery.length > 0 && <Button onMore={this.onMore} />}
-        {status === 'loading' && <Loader />}
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <h1>Modal</h1>
-          </Modal>
-        )}
-      </>
+      <section>
+        <div className={css.App}>
+          <Searchbar onChange={this.onSubmit} />
+          <ImageGallery gallery={gallery} openModal={this.openModal} />
+          {gallery.length > 0 && (
+            <div className={css.buttonContainer}>
+              <Button onMore={this.onMore} />
+            </div>
+          )}
+          {status === 'loading' && (
+            <div className={css.loader}>
+              <Loader />
+            </div>
+          )}
+          {showModal && (
+            <Modal onClose={this.closeModal}>
+              <img
+                className={css.img}
+                src={this.state.largeImage}
+                width="900"
+                alt=""
+              />
+            </Modal>
+          )}
+        </div>
+      </section>
     );
   }
 }

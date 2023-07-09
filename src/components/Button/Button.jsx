@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import css from "./Button.module.css";
 
 class Button extends Component{
     state = {
@@ -10,7 +11,11 @@ class Button extends Component{
 
     render() {
         return (
-          <button type="button" onClick={this.onButtonClick}>
+          <button
+            type="button"
+            className={css.Button}
+            onClick={this.onButtonClick}
+          >
             Load more
           </button>
         );
