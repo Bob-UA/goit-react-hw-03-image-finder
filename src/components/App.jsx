@@ -56,7 +56,7 @@ class App extends Component {
     if (name === this.state.value) {
       return alert('Try another input value!');
     }
-    this.setState({ value: name, page: 2, gallery: [], status: 'allow' });
+    this.setState({ value: name, page: 1, gallery: [], status: 'allow' });
   };
 
   onMore = () => {

@@ -1,5 +1,6 @@
-import ImageGalleryItem from "./ImageGalleryItem/ImageGalleryItem";
-import css from "./ImageGallery.module.css";
+import PropTypes from 'prop-types';
+import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
+import css from './ImageGallery.module.css';
 
 function ImageGallery({ gallery, openModal }) {
   return (
@@ -10,3 +11,8 @@ function ImageGallery({ gallery, openModal }) {
 }
 
 export default ImageGallery;
+
+ImageGallery.propTypes = {
+  gallery: PropTypes.arrayOf(PropTypes.object),
+  openModal:PropTypes.func.isRequired,
+};

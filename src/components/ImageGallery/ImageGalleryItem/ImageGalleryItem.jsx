@@ -1,6 +1,5 @@
-import css from "./ImageGalleryItem.module.css"
-
-
+import PropTypes from 'prop-types';
+import css from './ImageGalleryItem.module.css';
 
 function ImageGalleryItem({ gallery, openModal }) {
   return gallery.map(img => {
@@ -21,3 +20,8 @@ function ImageGalleryItem({ gallery, openModal }) {
 }
 
 export default ImageGalleryItem;
+
+ImageGalleryItem.propTypes = {
+  gallery: PropTypes.arrayOf(PropTypes.object),
+  openModal: PropTypes.func.isRequired,
+};
